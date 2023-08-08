@@ -10,13 +10,6 @@ import json
 
 import tinder_api as api
 
-
-'''
-This file collects important data on your matches,
-allows you to sort them by last_activity_date, age,
-gender, message count, and their average successRate.
-'''
-
 def get_match_info():
     matches = api.get_updates()['matches']
     now = datetime.utcnow()
@@ -48,9 +41,6 @@ def get_match_info():
 
 
 def get_match_id_by_name(name):
-    '''
-    Returns a list_of_ids that have the same name as your input
-    '''
     global match_info
     list_of_ids = []
     for match in match_info:
@@ -62,9 +52,6 @@ def get_match_id_by_name(name):
 
 
 def get_photos(person):
-    '''
-    Returns a list of photo urls
-    '''
     photos = person['photos']
     photo_urls = []
     for photo in photos:
@@ -73,9 +60,6 @@ def get_photos(person):
 
 
 def calculate_age(birthday_string):
-    '''
-    Converts from '1997-03-25T22:49:41.151Z' to an integer (age)
-    '''
     birthyear = int(birthday_string[:4])
     birthmonth = int(birthday_string[5:7])
     birthday = int(birthday_string[8:10])
@@ -84,9 +68,6 @@ def calculate_age(birthday_string):
 
 
 def get_avg_successRate(person):
-    '''
-    SuccessRate is determined by Tinder for their 'Smart Photos' feature
-    '''
     photos = person['photos']
     curr_avg = 0
     for photo in photos:
@@ -99,10 +80,6 @@ def get_avg_successRate(person):
 
 
 def sort_by_value(sortType):
-    '''
-    Sort options are:
-        'age', 'message_count', 'gender'
-    '''
     global match_info
     return sorted(match_info.items(), key=lambda x: x[1][sortType], reverse=True)
 
@@ -152,21 +129,11 @@ def how_long_has_it_been():
 
 
 def pause():
-    '''
-    In order to appear as a real Tinder user using the app...
-    When making many API calls, it is important to pause a...
-    realistic amount of time between actions to not make Tinder...
-    suspicious!
-    '''
     nap_length = 2 + (2+random())
     #print('Napping for %f seconds...' % nap_length)
     sleep(nap_length)
 
 def isAlreadyInDatabase(id,data):
-    '''
-    Will check if a person with a provided ID is already present
-    in the data file.
-    '''
     try:
         for person in data:
             pId = person["_id"]
